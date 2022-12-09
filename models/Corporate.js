@@ -2,7 +2,7 @@ import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from '../configs/db.js';
 import Branch from './Branch.js';
 
-const Corporate = sequelize.define('Corporate', {
+const Corporate = sequelize.define('corporates', {
     id: {
         type: DataTypes.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -36,6 +36,7 @@ const Corporate = sequelize.define('Corporate', {
 
 },
     {
+        freezeTableName: true,
         timestamps: true,
         indexes: [{
             unique: true,
