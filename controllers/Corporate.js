@@ -1,5 +1,4 @@
-import Corporate from "../models/Corporate.js";
-import { DB_ERROR_CODES } from "../utils/util.js";
+import { RegisterCorporateService } from "../services/RegisterCorporate.js";
 import { RegistrationValidation } from "../utils/validations.js";
 
 const SayHello = async (req, res) => {
@@ -9,28 +8,25 @@ const SayHello = async (req, res) => {
     })
 };
 
-const RegisterCorporate = async (req, res) => {
+const RegisterCorporateController = async (req, res) => {
     try {
+
         const { error } = RegistrationValidation(req.body);
+
         if (error) {
             return res.status(403).json({
                 error: true,
                 message: error.details[0].message
             });
         }
-        const response = await Corporate.create(req.body);
-        res.status(200).json(response)
-    } catch (e) {
 
-        if (e.original.code === DB_ERROR_CODES.UCV) {
-            return res.status(409).json({
-                error: true,
-                message: "Choose corporate with different name"
-            });
-        }
+        const response = await RegisterCorporateService(req.body);
+        
+        return res.status(response.status).json(response)
+    } catch (e) {
 
         res.status(500).json("Internal server error")
     }
 };
 
-export { SayHello, RegisterCorporate };
+export { SayHello, RegisterCorporateController };
