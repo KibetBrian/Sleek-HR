@@ -24,7 +24,13 @@ const Branch = sequelize.define('Corporate', {
         allowNull: false
     },
     qrCode: DataTypes.STRING,
+
     privateDrivers: JSONB,
+
+    corporateName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
 },
     {
         timestamps: true,
@@ -37,8 +43,8 @@ const Branch = sequelize.define('Corporate', {
 
 
 try {
-    await sequelize.sync({force: true});
-    Branch.belongsTo(Corporate, {foreignKey: 'corporateId'})
+    await sequelize.sync({ force: true });
+    Branch.belongsTo(Corporate, { foreignKey: 'corporateName' })
     console.log("Corporate table created successfully")
 } catch (e) {
     console.log(e);
