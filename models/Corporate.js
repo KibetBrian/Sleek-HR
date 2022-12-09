@@ -1,12 +1,11 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import { uuid } from 'uuidv4';
 import sequelize from '../configs/db.js';
 import Branch from './Branch.js';
 
 const Corporate = sequelize.define('Corporate', {
     id: {
         type: DataTypes.UUID,
-        defaultValue: uuid(),
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         allowNull: false
     },
@@ -46,7 +45,7 @@ const Corporate = sequelize.define('Corporate', {
 
 );
 try {
-    await sequelize.sync({force: true});
+    await sequelize.sync({ force: true });
     Corporate.hasMany(Branch);
     console.log("Corporate table created successfully")
 } catch (e) {
