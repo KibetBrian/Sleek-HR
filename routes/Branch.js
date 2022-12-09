@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { BranchRegistration } from "../controllers/Branch.js"
+import { RegisterBranchController } from "../controllers/Branch.js"
 
 const branchRoute = Router();
 
-branchRoute.post('/register', BranchRegistration);
+branchRoute.post('/register', RegisterBranchController);
 
 export default branchRoute;
 
