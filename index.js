@@ -25,7 +25,16 @@ app.get('/', (req, res) => {
 });
 
 //-----------ROUTES------
-app.use(rootUrl+'corporate', corporateRoute);
-app.use(rootUrl+'branch', branchRoute)
+app.use(rootUrl + 'corporate', corporateRoute);
+app.use(rootUrl + 'branch', branchRoute)
 
-app.listen(PORT, () => console.log("Server started"))
+
+
+
+//-----------Database Syncing and starting server---------//
+sequelize.sync().then(() => {
+    app.listen(PORT, () => console.log("Server started"))
+}).catch((e) => {
+    console.log("Sequelize sync error", e)
+})
+
