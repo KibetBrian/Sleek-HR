@@ -1,20 +1,21 @@
 import { Sequelize, DataTypes, JSONB } from 'sequelize';
-import { uuid } from 'uuidv4';
 import sequelize from '../configs/db.js';
 import Corporate from './Corporate.js';
 
-const Branch = sequelize.define('Corporate', {
+const Branch = sequelize.define('branches', {
     id: {
         type: DataTypes.UUID,
-        defaultValue: uuid(),
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         allowNull: false
     },
     name: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false
     },
     city: DataTypes.STRING,
+    
     address: {
         type: DataTypes.STRING,
         allowNull: false
@@ -27,18 +28,23 @@ const Branch = sequelize.define('Corporate', {
 
     privateDrivers: JSONB,
 
+    corporateId:{
+        type: DataTypes.UUID
+    },
+
     corporateName: {
         type: DataTypes.STRING,
         allowNull: false
     }
 },
     {
+        freezeTableName: true,
         timestamps: true,
         indexes: [{
             unique: true,
             fields: ['name']
         }]
-    }
+    },
 );
 
 
