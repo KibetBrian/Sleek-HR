@@ -1,4 +1,4 @@
-import Branch from "../models/Branch.js";
+import { RegisterBranchService } from "../services/RegisterBranch.js";
 import { BranchBodyValidation } from "../utils/validations.js";
 
 const SayHello = async (req, res) => {
@@ -8,21 +8,25 @@ const SayHello = async (req, res) => {
     })
 };
 
-const BranchRegistration = async (req, res) => {
+const RegisterBranchController = async (req, res) => {
     try {
-        const { error } = BranchBodyValidation (req.body);
+        const { error } = BranchBodyValidation(req.body);
         if (error) {
             return res.status(403).json({
                 error: true,
                 message: error.details[0].message
             });
         }
-        const response = await Branch.create(req.body);
-        res.status(200).json(response)
+        const response = await RegisterBranchService(req.body);
+
+        return res.status(response.status).json(response);
+
     } catch (e) {
-        console.log("Error", e)
-        res.status(500).json("Internal server error")
+        res.status(500).json({
+            success: false,
+            error: e
+        })
     }
 }
 
-export { SayHello, BranchRegistration };
+export { SayHello, RegisterBranchController };
