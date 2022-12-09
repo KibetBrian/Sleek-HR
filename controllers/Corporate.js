@@ -1,4 +1,5 @@
 import Corporate from "../models/Corporate.js";
+import { DB_ERROR_CODES } from "../utils/util.js";
 import { RegistrationValidation } from "../utils/validations.js";
 
 const SayHello = async (req, res) => {
@@ -20,9 +21,16 @@ const RegisterCorporate = async (req, res) => {
         const response = await Corporate.create(req.body);
         res.status(200).json(response)
     } catch (e) {
-        console.log("Error", e)
+
+        if (e.original.code === DB_ERROR_CODES.UCV) {
+            return res.status(409).json({
+                error: true,
+                message: "Choose corporate with different name"
+            });
+        }
+
         res.status(500).json("Internal server error")
     }
-}
+};
 
 export { SayHello, RegisterCorporate };
