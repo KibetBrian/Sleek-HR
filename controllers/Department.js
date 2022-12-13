@@ -1,5 +1,5 @@
 import DepartmentService from "../services/DepartmentService.js";
-import { DepapartmentRegistration } from "../utils/validations.js";
+import { DepapartmentRegistration, UpdateDepartmentValidation } from "../utils/validations.js";
 
 const RegisterDepartment = async (req, res) => {
     try {
@@ -59,4 +59,30 @@ const UpdateDepartmentStatus = async (req, res) => {
     }
 };
 
-export { RegisterDepartment, GetAllDepartments, UpdateDepartmentStatus }
+const UpdateDepartment = async (req, res) => {
+    try {
+        const { error } = UpdateDepartmentValidation(req.body);
+        if (error) {
+            if (error) {
+                return res.status(422).json({
+                    success: false,
+                    status: 403,
+                    message: error.details[0].message
+                });
+            }
+        }
+
+        const departmentService = new DepartmentService();
+
+        const departmentName = req.param('name');
+
+        const response = await departmentService.UpdateDepartment(departmentName, req.body);
+
+        return res.status(response.status).json(response);
+
+    } catch (e) {
+        return response.status(500).json("Internal Server error");
+    }
+}
+
+export { RegisterDepartment, GetAllDepartments, UpdateDepartmentStatus, UpdateDepartment }
