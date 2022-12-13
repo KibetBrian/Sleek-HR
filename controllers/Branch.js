@@ -1,12 +1,5 @@
-import { RegisterBranchService } from "../services/RegisterBranch.js";
+import { BranchService } from "../services/BranchService.js";
 import { BranchBodyValidation } from "../utils/validations.js";
-
-const SayHello = async (req, res) => {
-    return res.status(200).json({
-        success: true,
-        message: "Route working well"
-    })
-};
 
 const RegisterBranchController = async (req, res) => {
     try {
@@ -17,7 +10,10 @@ const RegisterBranchController = async (req, res) => {
                 message: error.details[0].message
             });
         }
-        const response = await RegisterBranchService(req.body);
+
+        const branchService = new BranchService();
+
+        const response = await branchService.RegisterBranch(req.body)
 
         return res.status(response.status).json(response);
 
@@ -27,6 +23,18 @@ const RegisterBranchController = async (req, res) => {
             error: e
         })
     }
+};
+
+const GetAllBranches = async (req, res) => {
+    try {
+        const branchService = new BranchService();
+
+        const response = await branchService.getAllBranches();
+
+        return res.status(response.status).json(response);
+    } catch (e) {
+        console.log(e);
+    }
 }
 
-export { SayHello, RegisterBranchController };
+export { RegisterBranchController, GetAllBranches };
