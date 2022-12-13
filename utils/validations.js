@@ -27,6 +27,16 @@ const BranchBodyValidation = (body) => {
     }).unknown(true);
 
     return schema.validate(body);
+};
+
+const DepapartmentRegistration = (data) => {
+    const schema = Joi.object({
+        name: Joi.string().required('Department name required'),
+        branchName: Joi.string().required('Branch required'),
+        departmentHead: Joi.string().required("Department head required"),
+    }).unknown(true);
+
+    return schema.validate(data);
 }
 
-export { RegistrationValidation, BranchBodyValidation }
+export { RegistrationValidation, BranchBodyValidation, DepapartmentRegistration }
