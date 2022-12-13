@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { findAllDepartmentNames } from './utils';
 
 const RegistrationValidation = (body) => {
 
@@ -47,6 +48,29 @@ const UpdateDepartmentValidation = (data) => {
     }).unknown(true);
 
     return schema.validate(data);
-}
+};
 
-export { RegistrationValidation, BranchBodyValidation, DepapartmentRegistration, UpdateDepartmentValidation }
+const departments = findAllDepartmentNames();
+
+const EmployeeBasicDetailsValidation = (body) => {
+
+    const schema = Joi.object({
+        firstName: Joi.string().required('First name required'),
+        middleName: Joi.string(),
+        lastName: Joi.string().required('Last name required'),
+        workEmail: Joi.string().required('Work email required'),
+        role: Joi.string().required("Role required"),
+        gender: Joi.string().validate(["male", "female", "other"]),
+        department: Joi.string().validate(departments, "No such department").required("Department required"),
+        passport: Joi.string(),
+        firstDayOfWork: Joi.date("Enter valid date").required("First day of work required"),
+        compenstationType: Joi.string().validate(["hourly", "monthly"]).required("Compensation type require"),
+        salary: Joi.number(),
+        paymentPeriod: Joi.string().validate(["weekly", "monthly"]).required("Payment period required")
+
+    }).unknown(true);
+
+    return schema.validate(body);
+};
+
+export { RegistrationValidation, BranchBodyValidation, DepapartmentRegistration, UpdateDepartmentValidation, EmployeeBasicDetailsValidation }
