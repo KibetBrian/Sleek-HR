@@ -3,18 +3,17 @@ import dotenv from 'dotenv';
 import sequelize from './configs/db.js';
 
 //--------ROUTES IMPORTS------ //
-import corporateRoute from './routes/Corporate.js';
-import branchRoute from './routes/Branch.js';
+import corporateRouter from './routes/Corporate.js';
+import branchRouter from './routes/Branch.js';
+import departmentRouter from './routes/Department.js';
 
 dotenv.config();
-sequelize.sync();
-const [results, metadata] = await sequelize.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
 
 const rootUrl = '/api/v1/hrm/'
 const PORT = process.env.PORT || 8080;
 const app = express();
 
-//-----MIDDLEWARES-------//
+//--------MIDDLEWARES---------//
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -24,11 +23,11 @@ app.get('/', (req, res) => {
     })
 });
 
-//-----------ROUTES------
-app.use(rootUrl + 'corporate', corporateRoute);
-app.use(rootUrl + 'branch', branchRoute)
 
-
+//-----------ROUTES----------//
+app.use(rootUrl + 'corporate', corporateRouter);
+app.use(rootUrl + 'branch', branchRouter);
+app.use(rootUrl+'department', departmentRouter);
 
 
 //-----------Database Syncing and starting server---------//
