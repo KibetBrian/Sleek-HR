@@ -81,7 +81,7 @@ class DepartmentService {
                     status: 403,
                     message: "Invalid action"
                 }
-        }
+        };
 
         try {
             await this.departmentModel.update({ active: toUpdate }, { where: { name: departmentName } });
@@ -98,6 +98,36 @@ class DepartmentService {
             }
         }
     };
+
+    async UpdateDepartment(departmentName, departmentData) {
+        try {
+
+            const exists = await this.departmentModel.findAll({ where: { name: departmentName } });
+            if (exists.length === 0) {
+                return {
+                    success: false,
+                    status: 404,
+                    message: "No such department exists"
+                }
+            }
+
+            const response = await this.departmentModel.update(departmentData, { where: { name: departmentName } });
+            return {
+                success: true,
+                status: 200,
+                message: "Department Updated"
+            }
+        } catch (e) {
+            return {
+                success: false,
+                status: 500,
+                error: e,
+                departmentData,
+                message: "Failed to update department"
+            }
+        }
+    };
+
 }
 
 export default DepartmentService;
