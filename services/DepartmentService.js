@@ -65,6 +65,39 @@ class DepartmentService {
             }
         }
     }
+
+    async activateOrDeactivateDepartment(action, departmentName) {
+        let toUpdate;
+        switch (action) {
+            case 'activate':
+                toUpdate = true;
+                break;
+            case 'deactivate':
+                toUpdate = false;
+                break;
+            default:
+                return {
+                    success: false,
+                    status: 403,
+                    message: "Invalid action"
+                }
+        }
+
+        try {
+            await this.departmentModel.update({ active: toUpdate }, { where: { name: departmentName } });
+            return {
+                success: true,
+                status: 200,
+                message: "Department updated"
+            }
+        } catch (e) {
+            return {
+                success: false,
+                status: 500,
+                message: "Internal server error"
+            }
+        }
+    };
 }
 
 export default DepartmentService;
