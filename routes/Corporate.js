@@ -1,10 +1,10 @@
 
 import { Router } from "express";
-import { RegisterCorporateController, SayHello } from "../controllers/Corporate.js";
+import { GetAllCorporates, RegisterCorporateController } from "../controllers/Corporate.js";
 
 const corporateRoute = Router();
 
-corporateRoute.get('/hello', SayHello);
+corporateRoute.get('/all', GetAllCorporates);
 corporateRoute.post('/register', RegisterCorporateController)
 
 
