@@ -73,4 +73,14 @@ const EmployeeBasicDetailsValidation = (body) => {
     return schema.validate(body);
 };
 
-export { RegistrationValidation, BranchBodyValidation, DepapartmentRegistration, UpdateDepartmentValidation, EmployeeBasicDetailsValidation }
+const LoginValidation = () => {
+    const schema = Joi.object({
+        email: Joi.string().required('Department name required'),
+        password: Joi.string().required('Branch required'),
+        role: Joi.string().validate(["hr", "employee", "admin"]),
+    }).unknown(true);
+
+    return schema.validate(data);
+};
+
+export { RegistrationValidation, BranchBodyValidation, DepapartmentRegistration, UpdateDepartmentValidation, EmployeeBasicDetailsValidation, LoginValidation }
