@@ -1,6 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from '../configs/db.js';
-import Branch from './Branch.js';
 
 const Corporate = sequelize.define('corporates', {
     id: {
@@ -45,14 +44,7 @@ const Corporate = sequelize.define('corporates', {
     }
 
 );
-try {
-    await sequelize.sync({ force: true });
-    Corporate.hasMany(Branch);
-    console.log("Corporate table created successfully")
-} catch (e) {
-    console.log(e);
-    console.log("Error occured while syncronizing models", e)
-}
+
 export default Corporate;
 
 
