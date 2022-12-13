@@ -6,6 +6,7 @@ import sequelize from './configs/db.js';
 import corporateRouter from './routes/Corporate.js';
 import branchRouter from './routes/Branch.js';
 import departmentRouter from './routes/Department.js';
+import authRouter from './routes/Auth.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 
 
 //-----------ROUTES----------//
+app.use(rootUrl+'auth', authRouter);
 app.use(rootUrl + 'corporate', corporateRouter);
 app.use(rootUrl + 'branch', branchRouter);
 app.use(rootUrl+'department', departmentRouter);
