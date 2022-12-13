@@ -5,7 +5,6 @@ const RegisterCorporateController = async (req, res) => {
     try {
 
         const { error } = RegistrationValidation(req.body);
-
         if (error) {
             return res.status(403).json({
                 error: true,
