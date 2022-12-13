@@ -2,10 +2,10 @@
 import { Router } from "express";
 import { GetAllCorporates, RegisterCorporateController } from "../controllers/Corporate.js";
 
-const corporateRoute = Router();
+const corporateRouter = Router();
 
-corporateRoute.get('/all', GetAllCorporates);
-corporateRoute.post('/register', RegisterCorporateController)
+corporateRouter.get('/all', GetAllCorporates);
+corporateRouter.post('/register', RegisterCorporateController)
 
 
-export default corporateRoute;
+export default corporateRouter;
