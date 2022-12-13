@@ -21,9 +21,9 @@ const Department = sequelize.define('departments', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    noOfEmployees: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
+    employess: {
+        type: DataTypes.ARRAY(DataTypes.UUID),
+        defaultValue: [],
         allowNull: false
     },
     departmentHead: {
