@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "hrmdb"
+  app:
+    build: .
+    environment:
+      - DBURI=postgres://root:password@db:5432/hrmdb
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    links:
+      - db
