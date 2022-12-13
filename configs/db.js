@@ -1,11 +1,34 @@
-import { Sequelize, Op, Model, DataTypes } from 'sequelize';
+import { Sequelize } from 'sequelize';
+import config from './config.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const sequlizeOptions = {
     //logging: console.log
 }
-const sequelize = new Sequelize(process.env.DBURI, sequlizeOptions);
+
+const CreateDBURI = (object) => {
+    return `${object.dialect}://${object.username}:${object.password}@${object.host}:${object.port}/${object.database}`
+}
+
+let DBURI;
+if (process.env.APP_ENVIRONMENT === 'dev') {
+};
+switch (process.env.APP_ENVIRONMENT) {
+    case 'dev':
+        DBURI = CreateDBURI(config.development);
+        break;
+    case 'production':
+        DBURI = CreateDBURI(config.production);
+        break;
+    case 'test':
+        DBURI = CreateDBURI(config.test)
+    default:
+        DBURI = CreateDBURI(config.development);
+        break;
+};
+
+const sequelize = new Sequelize(DBURI, sequlizeOptions);
 
 try {
     await sequelize.authenticate();
