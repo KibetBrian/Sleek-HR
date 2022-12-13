@@ -41,6 +41,22 @@ const GetAllDepartments = async (req, res) => {
             message: "Internal server error"
         }
     }
-}
+};
 
-export { RegisterDepartment, GetAllDepartments }
+const UpdateDepartmentStatus = async (req, res) => {
+    try {
+        const departmentName = req.param('name');
+        const action = req.param('action');
+
+        const departmentService = new DepartmentService();
+
+        const response = await departmentService.activateOrDeactivateDepartment(action, departmentName);
+
+        return res.status(response.status).json(response);
+
+    } catch (e) {
+        return res.status(500).json('Internal server error')
+    }
+};
+
+export { RegisterDepartment, GetAllDepartments, UpdateDepartmentStatus }
