@@ -39,7 +39,11 @@ class CorporateService {
                 corporates: response
             }
         } catch (e) {
-
+            return {
+                success: false,
+                status: 500,
+                message: "Internal Server error"
+            }
         }
     }
 }
