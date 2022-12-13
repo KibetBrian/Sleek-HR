@@ -1,12 +1,5 @@
-import { RegisterCorporateService } from "../services/RegisterCorporate.js";
+import { CorporateService } from "../services/CorporateService.js";
 import { RegistrationValidation } from "../utils/validations.js";
-
-const SayHello = async (req, res) => {
-    return res.status(200).json({
-        success: true,
-        message: "Route working well"
-    })
-};
 
 const RegisterCorporateController = async (req, res) => {
     try {
@@ -20,13 +13,28 @@ const RegisterCorporateController = async (req, res) => {
             });
         }
 
-        const response = await RegisterCorporateService(req.body);
-        
-        return res.status(response.status).json(response)
+        const corporateService = new CorporateService();
+
+        const response = await corporateService.registerCorporate(req.body);
+
+        return res.status(response.status).json(response);
+
     } catch (e) {
 
         res.status(500).json("Internal server error")
     }
 };
 
-export { SayHello, RegisterCorporateController };
+const GetAllCorporates = async (req, res) => {
+    try {
+        const corporateService = new CorporateService();
+
+        const response = await corporateService.getAllCorporates();
+
+        return res.status(response.status).json(response);
+    } catch (e) {
+
+    }
+}
+
+export { RegisterCorporateController, GetAllCorporates };
