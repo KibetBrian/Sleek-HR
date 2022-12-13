@@ -15,7 +15,7 @@ const Branch = sequelize.define('branches', {
         allowNull: false
     },
     city: DataTypes.STRING,
-    
+
     address: {
         type: DataTypes.STRING,
         allowNull: false
@@ -28,7 +28,7 @@ const Branch = sequelize.define('branches', {
 
     privateDrivers: JSONB,
 
-    corporateId:{
+    corporateId: {
         type: DataTypes.UUID
     },
 
@@ -47,15 +47,9 @@ const Branch = sequelize.define('branches', {
     },
 );
 
+Corporate.hasMany(Branch);
+Branch.belongsTo(Corporate);
 
-try {
-    await sequelize.sync({ force: true });
-    Branch.belongsTo(Corporate, { foreignKey: 'corporateName' })
-    console.log("Corporate table created successfully")
-} catch (e) {
-    console.log(e);
-    console
-}
 export default Branch;
 
 
