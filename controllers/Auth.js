@@ -1,11 +1,11 @@
-import AuthService from "../services/Auth";
-import { LoginValidation } from "../utils/validations";
+import AuthService from "../services/Auth.js";
+import { LoginValidation } from "../utils/validations.js";
 
 const Login = async (req, res) => {
     try {
         const { error } = LoginValidation(req.body);
         if (error) {
-            return res.status(403).json({
+            return res.status(400).json({
                 error: true,
                 message: error.details[0].message
             });
@@ -13,12 +13,12 @@ const Login = async (req, res) => {
 
         const authService = new AuthService();
 
-        const response = await authService.Login(req.body);
+        const response = await authService.login(req.body);
 
         return res.status(response.status).json(response);
-        
-    } catch (e) {
 
+    } catch (e) {
+        res.status(500).json("Internal server error")
     }
 };
 
