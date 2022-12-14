@@ -29,21 +29,9 @@ const auth = (req, res, next) => {
 
 const authorize = (permissionsAllowed, rolesAllowed) => {
     return async (req, res, next) => {
-        const authHeader = req.headers['authorization'];
-
-        const token = authHeader && authHeader.split(' ')[1];
-        if (!token) {
-            return res.status(400).json({
-                success: false,
-                status: 400,
-                message: "Authorization token not found"
-            })
-        };
-
         try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-            const user = await Employee.findAll({ where: { workEmail: decoded.email } });
+            const user = await Employee.findAll({ where: { workEmail: req.user.email } });
             if (user.length === 0) {
                 return res.status(404).json({
                     success: false,
