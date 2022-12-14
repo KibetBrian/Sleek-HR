@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import sequelize from './configs/db.js';
+import sequelize from './config/db.js';
 
 //--------ROUTES IMPORTS------ //
 import corporateRouter from './routes/Corporate.js';
