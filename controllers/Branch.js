@@ -33,7 +33,11 @@ const GetAllBranches = async (req, res) => {
 
         return res.status(response.status).json(response);
     } catch (e) {
-        console.log(e);
+        res.status(500).json({
+            success: false,
+            status: 500,
+            message: "Internal server error"
+        })
     }
 }
 
