@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes, JSONB } from 'sequelize';
-import sequelize from '../configs/db.js';
+import sequelize from '../config/db.js';
 import Corporate from './Corporate.js';
 
 const Branch = sequelize.define('branches', {
