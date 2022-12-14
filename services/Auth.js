@@ -8,7 +8,7 @@ class AuthService {
 
     async login(data) {
         try {
-            const user = await this.model.findAll({ where: { email: data.email } });
+            const user = await this.model.findAll({ where: { workEmail: data.email } });
             if (user.length === 0) {
                 return {
                     success: false,
@@ -17,7 +17,7 @@ class AuthService {
                 }
             }
 
-            if (user[0].password !== "briankibet") {
+            if (user[0].password !== data.password) {
                 return {
                     success: false,
                     status: 401,
@@ -32,6 +32,7 @@ class AuthService {
                 tokens
             }
         } catch (e) {
+            console.log("Error", e)
             return {
                 success: false,
                 status: 500,
