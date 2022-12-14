@@ -1,44 +1,42 @@
-import SuperUsers from "../models/SuperUsers";
-import { GenerateTokens } from "../utils/jwt";
+import Employee from "../models/Employee.js";
+import { GenerateTokens } from "../utils/jwt.js";
 
 class AuthService {
     constructor() {
-        this.model = SuperUsers;
+        this.model = Employee;
     };
 
-    async Login(data) {
-        let role;
-        switch (data.role) {
-            case "hr":
-                role = hr;
-                break;
+    async login(data) {
+        try {
+            const user = await this.model.findAll({ where: { email: data.email } });
+            if (user.length === 0) {
+                return {
+                    success: false,
+                    status: 404,
+                    message: "No such user found"
+                }
+            }
 
-            default:
-                break;
-        }
+            if (user[0].password !== "briankibet") {
+                return {
+                    success: false,
+                    status: 401,
+                    message: "Wrong email, password or role"
+                }
+            };
 
-        const user = await SuperUsers.find({ email: data.email, role: data.role });
-        if (user.length === 0) {
+            const tokens = await GenerateTokens(user[0].dataValues);
+            return {
+                success: true,
+                status: 200,
+                tokens
+            }
+        } catch (e) {
             return {
                 success: false,
-                status: 404,
-                message: "No such user found"
+                status: 500,
+                message: "Login failed, try again later"
             }
-        }
-
-        if (data.password !== user.password) {
-            return {
-                success: false,
-                status: 401,
-                message: "Wrong email or password"
-            }
-        }
-
-        const tokens = await GenerateTokens(user);
-        return {
-            success: true,
-            status: 404,
-            tokens
         }
     }
 };
