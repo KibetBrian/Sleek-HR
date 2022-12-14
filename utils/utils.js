@@ -1,14 +1,8 @@
-import Department from "../models/Department";
+import Department from "../models/Department.js";
 
-const findAllDepartmentNames = async () => {
-    let departmentNames = [];
-    const departments = await Department.findAll();
-    for (let i = 0; i < departments.length; i++) {
-        departmentNames.push(departments[i].name);
-    };
-
-    return departmentNames;
-};
+const isObjectEmpty = (object) => {
+    return Object.keys(object).length === 0;
+}
 
 const COMPENSATION_TYPES = {
     HOURLY: 'hourly',
@@ -19,4 +13,4 @@ const DB_ERROR_CODES = {
     UCV: '23505'
 }
 
-export {findAllDepartmentNames, DB_ERROR_CODES }
+export { DB_ERROR_CODES, isObjectEmpty }
