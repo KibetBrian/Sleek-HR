@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes } from "sequelize";
-import sequelize from '../configs/db.js';
+import sequelize from '../config/db.js';
 import Branch from "./Branch.js";
 
 const Department = sequelize.define('departments', {
