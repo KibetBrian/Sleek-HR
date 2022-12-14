@@ -27,7 +27,7 @@ const auth = (req, res, next) => {
     }
 };
 
-const authorize = (role) => {
+const authorize = (permissionsAllowed, rolesAllowed) => {
     return async (req, res, next) => {
         const authHeader = req.headers['authorization'];
 
@@ -52,10 +52,18 @@ const authorize = (role) => {
                 });
             }
 
-            const userRole = user[0].role;
+            const userRoles = user[0].roles;
+            const userPermissions = user[0].permisions;
 
-            const isRoleCorrect = userRole === role;
-            if (!(isRoleCorrect)) {
+            const isPermissionsCorrect = permissionsAllowed.every((p) => {
+                return userPermissions.includes(p);
+            });
+
+            const isRolesCorrect = rolesAllowed.every((r) => {
+                return userRoles.includes(r);
+            });
+
+            if (!(isPermissionsCorrect && isRolesCorrect)) {
                 return res.status(400).json({
                     success: false,
                     status: 400,
@@ -65,6 +73,7 @@ const authorize = (role) => {
 
             next();
         } catch (e) {
+            console.log("Error", e)
             res.status(500).json({
                 success: false,
                 status: 500,
