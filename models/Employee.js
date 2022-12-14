@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 import sequelize from '../config/db.js';
 
-const Employee = sequelize.define('Employees', {
+const Employee = sequelize.define('employees', {
     id: {
         type: DataTypes.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -27,11 +27,12 @@ const Employee = sequelize.define('Employees', {
         allowNull: false
     },
     gender: {
-        type: DataTypes.ENUM("Male", "Female"),
+        type: DataTypes.ENUM("male", "female"),
         allowNull: false
     },
     department: {
-        type: DataTypes.ENUM("Finance", "Tech", "Marketing", "Department")
+        type: DataTypes.ENUM("finance", "tech", "marketing", "department"),
+        allowNull: false
     },
     passport: {
         type: DataTypes.STRING
@@ -50,9 +51,20 @@ const Employee = sequelize.define('Employees', {
     paymentPeriod: {
         type: DataTypes.ENUM("weekly", "monthly")
     },
-    role: {
-        type: DataTypes.ENUM("hr", "employee", "admin"),
-        defaultValue: "employee"
+    roles: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: ["employee"],
+        allowNull: false
+    },
+    permisions: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: ["read"],
+        allowNull: false
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '1234'
     }
 }, { timestamps: true, freezeTableName: true });
 
