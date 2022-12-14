@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import Previdege from '../models/Previledge';
-import Employee from '../models/Employee';
+import Employee from '../models/Employee.js';
 dotenv.config();
 
 const auth = (req, res, next) => {
-    const token = req.header('x-auth-token');
+    const authHeader = req.headers['authorization'];
+
+    const token = authHeader && authHeader.split(' ')[1];
     if (!token) {
         return res.status(401).json({
             success: false,
@@ -13,19 +14,24 @@ const auth = (req, res, next) => {
             message: "Authorization token not found",
         })
     };
-
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         req.user = decoded;
         next();
     } catch (e) {
-        return res.status(401).json("Invalid authorization token")
+        return res.status(401).json({
+            success: false,
+            status: 401,
+            message: "Invalid authorization token",
+        })
     }
 };
 
-const authorize = async (permisions, roles) => {
-    return async () => {
-        const token = req.token('x-auth-token');
+const authorize = (role) => {
+    return async (req, res, next) => {
+        const authHeader = req.headers['authorization'];
+
+        const token = authHeader && authHeader.split(' ')[1];
         if (!token) {
             return res.status(400).json({
                 success: false,
@@ -33,10 +39,11 @@ const authorize = async (permisions, roles) => {
                 message: "Authorization token not found"
             })
         };
+
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-            const user = await Previdege.findAll({ include: Employee }, { where: { id: decoded.id } });
+            const user = await Employee.findAll({ where: { workEmail: decoded.email } });
             if (user.length === 0) {
                 return res.status(404).json({
                     success: false,
@@ -45,18 +52,10 @@ const authorize = async (permisions, roles) => {
                 });
             }
 
-            const userRoles = user[0].roles;
-            const userPermisions = user[0].permisions;
+            const userRole = user[0].role;
 
-            const isRoleCorrect = roles.every((r) => {
-                return roles.includes(r);
-            });
-
-            const isPermissionsCorrect = permisions.every((p) => {
-                return roles.includes(p);
-            });
-
-            if (!(isRoleCorrect && isPermissionsCorrect)) {
+            const isRoleCorrect = userRole === role;
+            if (!(isRoleCorrect)) {
                 return res.status(400).json({
                     success: false,
                     status: 400,
@@ -66,7 +65,11 @@ const authorize = async (permisions, roles) => {
 
             next();
         } catch (e) {
-
+            res.status(500).json({
+                success: false,
+                status: 500,
+                message: "Internal server error"
+            })
         }
     }
 }
