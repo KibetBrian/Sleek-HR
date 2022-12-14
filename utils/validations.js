@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import { findAllDepartmentNames } from './utils';
 
 const RegistrationValidation = (body) => {
 
@@ -50,7 +49,6 @@ const UpdateDepartmentValidation = (data) => {
     return schema.validate(data);
 };
 
-const departments = findAllDepartmentNames();
 
 const EmployeeBasicDetailsValidation = (body) => {
 
@@ -60,24 +58,24 @@ const EmployeeBasicDetailsValidation = (body) => {
         lastName: Joi.string().required('Last name required'),
         workEmail: Joi.string().required('Work email required'),
         role: Joi.string().required("Role required"),
-        gender: Joi.string().validate(["male", "female", "other"]),
-        department: Joi.string().validate(departments, "No such department").required("Department required"),
+        gender: Joi.string().valid(["male", "female", "other"]),
+        department: Joi.string().valid(("Finance", "Tech", "Logistics", "Marketing"), "No such department").required("Department required"),
         passport: Joi.string(),
         firstDayOfWork: Joi.date("Enter valid date").required("First day of work required"),
-        compenstationType: Joi.string().validate(["hourly", "monthly"]).required("Compensation type require"),
+        compenstationType: Joi.string().valid(["hourly", "monthly"]).required("Compensation type require"),
         salary: Joi.number(),
-        paymentPeriod: Joi.string().validate(["weekly", "monthly"]).required("Payment period required")
+        paymentPeriod: Joi.string().valid(["weekly", "monthly"]).required("Payment period required")
 
     }).unknown(true);
 
     return schema.validate(body);
 };
 
-const LoginValidation = () => {
+const LoginValidation = (data) => {
     const schema = Joi.object({
         email: Joi.string().required('Department name required'),
         password: Joi.string().required('Branch required'),
-        role: Joi.string().validate(["hr", "employee", "admin"]),
+        role: Joi.string().valid("hr", "employee", "admin").required("Role not provided")
     }).unknown(true);
 
     return schema.validate(data);
