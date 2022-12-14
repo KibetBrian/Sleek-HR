@@ -23,8 +23,14 @@ module.exports = {
       workEmail: {
         type: Sequelize.STRING,
       },
-      role: {
-        type: Sequelize.ENUM("employee", "hr", "admin"),
+      roles: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        defaultValue: ["employee"],
+        allowNull: false
+      },
+      permissions: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        defaultValue: ["read"],
         allowNull: false
       },
       gender: {
@@ -32,7 +38,7 @@ module.exports = {
         allowNull: false,
       },
       department: {
-        type: Sequelize.ENUM("finance", "tech", "marketing", "department"),
+        type: Sequelize.ENUM(["finance", "tech", "marketing", "department"]),
         allowNull: false
       },
       passport: {
@@ -51,10 +57,6 @@ module.exports = {
       },
       paymentPeriod: {
         type: Sequelize.ENUM("weekly", "monthly")
-      },
-      role: {
-        type: Sequelize.ENUM("hr", "employee", "admin"),
-        defaultValue: "employee"
       },
       password: {
         type: Sequelize.STRING,
