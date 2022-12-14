@@ -1,10 +1,5 @@
 import { Sequelize, DataTypes } from "sequelize";
-import sequelize from '../configs/db.js';
-import { findAllDepartmentNames } from "../utils/utils.js";
-import Department from "./Department.js";
-
-const departmentNames = findAllDepartmentNames();
-
+import sequelize from '../config/db.js';
 
 const Employee = sequelize.define('Employees', {
     id: {
@@ -36,7 +31,7 @@ const Employee = sequelize.define('Employees', {
         allowNull: false
     },
     department: {
-        type: DataTypes.ENUM(...departmentNames)
+        type: DataTypes.ENUM("Finance", "Tech", "Marketing", "Department")
     },
     passport: {
         type: DataTypes.STRING
@@ -54,8 +49,11 @@ const Employee = sequelize.define('Employees', {
     },
     paymentPeriod: {
         type: DataTypes.ENUM("weekly", "monthly")
+    },
+    role: {
+        type: DataTypes.ENUM("hr", "employee", "admin"),
+        defaultValue: "employee"
     }
 }, { timestamps: true, freezeTableName: true });
-
 
 export default Employee;
