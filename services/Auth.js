@@ -1,21 +1,22 @@
-import Employee from "../models/Employee.js";
+import BasicEmployeeDetails from "../models/BasicEmployeeDetails.js";
 import { GenerateTokens } from "../utils/jwt.js";
 
 class AuthService {
     constructor() {
-        this.model = Employee;
+        this.model = BasicEmployeeDetails;
     };
 
     async login(data) {
         try {
+
             const user = await this.model.findAll({ where: { workEmail: data.email } });
             if (user.length === 0) {
                 return {
                     success: false,
                     status: 404,
-                    message: "No such user found"
+                    message: "No user with such email found"
                 }
-            }
+            };
 
             if (user[0].password !== data.password) {
                 return {
@@ -26,10 +27,11 @@ class AuthService {
             };
 
             const tokens = await GenerateTokens(user[0].dataValues);
+            const { password, ...others } = user;
             return {
                 success: true,
                 status: 200,
-                tokens
+                userData: {...others, tokens},
             }
         } catch (e) {
             console.log("Error", e)
