@@ -4,7 +4,7 @@ import { GetAllDepartments, RegisterDepartment, UpdateDepartment, UpdateDepartme
 const departmentRouter = Router();
 
 departmentRouter.get('/all', GetAllDepartments);
-departmentRouter.post('/register', RegisterDepartment);
+departmentRouter.post('/add', RegisterDepartment);
 departmentRouter.put('/update-status/:action/:name', UpdateDepartmentStatus);
 departmentRouter.put('/update/:name', UpdateDepartment);
 
