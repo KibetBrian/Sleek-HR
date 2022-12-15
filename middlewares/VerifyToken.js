@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import Employee from '../models/Employee.js';
+import BasicEmployeeDetails from '../models/BasicEmployeeDetails.js';
 dotenv.config();
 
 const auth = (req, res, next) => {
@@ -31,7 +31,7 @@ const authorize = (permissionsAllowed, rolesAllowed) => {
     return async (req, res, next) => {
         try {
 
-            const user = await Employee.findAll({ where: { workEmail: req.user.email } });
+            const user = await BasicEmployeeDetails.findAll({ where: { workEmail: req.user.email } });
             if (user.length === 0) {
                 return res.status(404).json({
                     success: false,
