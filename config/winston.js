@@ -1,4 +1,4 @@
-import winston from "winston/lib/winston/config";
+import winston from "winston";
 import appRootPath from "app-root-path";
 
 const options = {
