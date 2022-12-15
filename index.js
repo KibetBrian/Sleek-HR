@@ -1,8 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import sequelize from './config/db.js';
 import morgan from 'morgan';
 import cors from 'cors';
+import sequelize from './config/db.js';
+import winston from './config/winston.js';
 
 //--------ROUTES IMPORTS------ //
 import corporateRouter from './routes/Corporate.js';
@@ -19,7 +20,8 @@ const app = express();
 //--------MIDDLEWARES---------//
 app.use(express.json());
 app.use(cors());
-app.use(morgan('tiny'))
+app.use(morgan('combined', {stream: winston.stream}));
+
 
 
 
