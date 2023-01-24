@@ -11,7 +11,7 @@ module.exports = {
       department: "tech",
       permisions: ["read", "write", "update", "delete"],
       roles: ["employee", "hr", "admin"],
-      workEmail: "kibet@little.africa",
+      workEmail: "brian.kibet@gmail.com",
       password: "briankibet",
       firstDayOfWork: new Date(),
       password: "admin",
