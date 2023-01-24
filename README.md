@@ -11,7 +11,7 @@ A an HR management system built with Node.js and MongoDB.
 ## Requirements
 
 - Nodejs
-- MongoDb
+- PostgreSQL
 
 ## Installation
 
