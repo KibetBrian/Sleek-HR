@@ -10,12 +10,12 @@ module.exports = {
       gender: "male",
       department: "tech",
       permisions: ["read", "write", "update", "delete"],
-      roles: ["employee", "hr", "admin"],
+      roles: ["employee", "hr", "admin", "superAdmin"],
       workEmail: "brian.kibet@gmail.com",
       password: "briankibet",
       firstDayOfWork: new Date(),
       password: "admin",
-      role: "admin",
+      role: "superAdmin",
       createdAt: new Date(),
       updatedAt: new Date()
     }])
